@@ -1,0 +1,152 @@
+<!doctype html>
+
+<!-- FiveMinutesSpeech 5F1 a.s. 2023/2024, v. 0.1                -->
+<!-- Copyright (C) IIS Cattaneo dall'Aglio, Castelnovo ne' Monti -->
+<!-- (M.C., 16/10/2023)                                          -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <title>FiveMinutesSpeech 5F1, a.s. 2023/2024</title> 
+
+    <script>
+	  const students =
+	    [
+			"AZZOLINI IRIS",
+			"BODECCHI DANIELE",
+			"CERRI LEONARDO",
+			"DOMENICHINI CHIARA",
+			"DONADELLI CRISTIAN",
+			"DRIDI ADAM",
+			"FERRARO MATTIA",
+			"FERRI ALBERTO",
+			"FILIPPI ALESSANDRO",
+			"GRECA STIVEN",
+			"MAJDOULI SUFYANE",
+			"PETRONI SIMONE",
+			"TEGGI LEONARDO"
+		];
+	  const imagesArray =
+	    [
+		    "Immagine_1a.jpg",
+			"Immagine_1b.jpg",
+			"Immagine_2a.jpg",
+			"Immagine_2b.jpg",
+			"Immagine_3a.jpg",
+			"Immagine_3b.jpg",
+			"Immagine_4a.jpg",
+			"Immagine_4b.jpg"
+		];
+	  
+	  const maxTimeMin = 5;
+	  
+	  var timerMin = maxTimeMin;
+	  var timerSec = 0;
+	  var timerOn  = 0;
+	
+	  function drawLots(){
+	    var i = Math.floor(Math.random() * students.length);
+		return students[i];
+	  }
+	  
+	  function drawLotsIma(){
+	    var i = Math.floor(Math.random() * imagesArray.length);
+		return imagesArray[i];
+	  }
+      
+	  function countDownTimer(){
+	    if (timerOn > 1){
+		  timerOn = 1
+		}
+		else{
+			if (timerOn == 1){
+			  if (timerSec > 0){
+				timerSec--;
+			  }
+			  else{
+				if (timerMin > 0){
+				  timerMin--;
+				  timerSec = 59;
+				}
+				else{
+				  timerOn = 0;
+				}
+				
+			  }
+			  showTimer();
+			}
+		}
+      }
+
+	  function pad(n, width, z){
+		  z = z || '0';
+		  n = n + '';
+		  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+      }
+	  
+	  function showTimer(){
+	    document.getElementById("id_Timer").innerHTML = "<b>"+timerMin+":"+pad(timerSec, 2)+"</b>"; 
+	  }
+	  
+	  function showStudentName(){
+        document.getElementById("id_Student").innerHTML = "<b>"+drawLots()+"</b>";
+		document.getElementById("bStartCountDown").setAttribute('style', "font-size:170%;height:50px;width:300px;visibility:visible");
+	    timerMin = maxTimeMin;
+	    timerSec = 0;
+		timerOn = 0;
+		showTimer();
+		document.getElementById("id_Timer").setAttribute('style', "font-size:400%;text-align:center;visibility:visible");
+		document.canvas.src = drawLotsIma()
+      }
+
+	  function startTimer(){
+	    timerMin = maxTimeMin;
+	    timerSec = 0;
+		showTimer();
+		timerOn = 2;
+	  }
+    
+    </script>
+
+  </head>
+
+  <body onLoad="setInterval(countDownTimer, 1000)">
+
+    <h1 style="text-align:center"> 5F1 Five Minutes Speech </h1>
+
+    <p style="text-align:center">
+      <table style="width:100%">
+	  <tr>
+	    <td style="width:50%">
+			<p style="text-align:center">
+			  <button id="bDrawLots" style="font-size:170%;height:50px;width:300px" onclick="showStudentName()"> SORTEGGIA </button>
+			</p>
+		</td>
+	    <td style="width:50%">
+			<p style="text-align:center">
+			  <button id="bStartCountDown" style="font-size:170%;height:50px;width:300px;visibility:hidden" onclick="startTimer()"> START </button>
+			</p>
+	    </td>
+      </tr>		
+      <tr>	
+	    <td style="width:50%">
+			<h1 id="id_Student" style="text-align:center">
+			  <b> ... </b>
+			</h1>
+		</td>
+	    <td style="width:50%">
+		    <h1 id="id_Timer" style="text-align:center;visibility:hidden">
+			</h1>
+	    </td>
+      </tr>		
+	  </table>
+	</p>
+	
+	<p style="text-align:center">
+	  <img src="blank.jpg" name="canvas">
+	</p>
+
+  </body>
+
+</html>
